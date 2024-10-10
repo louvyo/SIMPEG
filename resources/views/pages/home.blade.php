@@ -9,12 +9,14 @@
 
     {{-- Flowbite --}}
     @vite('resources/css/app.css')
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body>
-    <h1 class="text-3xl font-bold underline">
-        Hello world!
-    </h1>
+    @include('components.navbar')
+
+    <script src="https://unpkg.com/flowbite@latest/dist/flowbite.js"></script>
 </body>
 
 </html>
