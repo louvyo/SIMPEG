@@ -13,7 +13,7 @@
         <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4">
             <a href="{{ route('login') }}"
                 class="btn btn-primary px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-700 text-white">Masuk</a>
-            <a href="#"
+            <a href="{{ route('register') }}"
                 class="btn btn-secondary px-4 py-2 rounded-lg bg-gray-500 hover:bg-gray-700 text-white">Daftar</a>
         </div>
     </div>
