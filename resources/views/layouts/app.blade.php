@@ -11,7 +11,7 @@
     @include('components.navbar')
     @include('components.sidebar')
 
-    <main class="container mx-auto mt-20">
+    <main class="container mx-auto mt-20 px-4 sm:px-6 lg:px-8">
         @yield('content')
         @include('components.footer')
     </main>

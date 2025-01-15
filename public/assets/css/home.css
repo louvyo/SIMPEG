@@ -1,0 +1,49 @@
+/* Button Styles */
+.btn-auth {
+    @apply relative px-8 py-3 rounded-lg text-white font-medium text-base uppercase tracking-wider transition-all duration-300 transform hover:scale-105 focus:outline-none shadow-md text-center inline-block group;
+}
+
+.btn-masuk {
+    background-color: #3b82f6;
+    /* Biru cerah */
+    border: 1px solid rgba(59, 130, 246, 0.5);
+}
+
+.btn-daftar {
+    background-color: #10b981;
+    /* Hijau tosca */
+    border: 1px solid rgba(16, 185, 129, 0.5);
+}
+
+/* Hover Effect */
+.btn-auth:hover {
+    @apply shadow-xl -translate-y-1;
+}
+
+/* Icon Style */
+.btn-auth .btn-icon {
+    @apply mr-2 transition-transform duration-300 group-hover:rotate-6;
+}
+
+/* Responsif */
+@media (max-width: 640px) {
+    .btn-auth {
+        @apply w-full;
+    }
+}
+
+/* Tambahan Animasi */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+body {
+    animation: fadeIn 1s ease-out;
+}
