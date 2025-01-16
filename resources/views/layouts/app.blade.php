@@ -8,12 +8,12 @@
 </head>
 
 <body class="bg-gray-900 text-white">
-    @include('components.navbar')
-    @include('components.sidebar')
+    @include('components.navbar') <!-- Include the navigation bar -->
+    @include('components.sidebar') <!-- Include the sidebar -->
 
     <main class="container mx-auto mt-20 px-4 sm:px-6 lg:px-8">
-        @yield('content')
-        @include('components.footer')
+        @yield('content') <!-- Main content will be injected here -->
+        @include('components.footer') <!-- Include the footer -->
     </main>
 
     <script src="https://unpkg.com/flowbite@1.4.1/dist/flowbite.js"></script>

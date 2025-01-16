@@ -1,6 +1,6 @@
-// Ini adalah file javascript yang akan dijalankan pada halaman home
+// This is the JavaScript file that will run on the home page
 document.addEventListener("DOMContentLoaded", function () {
-    // Konfigurasi Particle
+    // Particle configuration
     const particleConfig = {
         particles: {
             number: {
@@ -55,8 +55,15 @@ document.addEventListener("DOMContentLoaded", function () {
         },
     };
 
-    // Inisialisasi Particles
+    // Initialize particles
     if (window.particlesJS) {
         particlesJS("particles-js", particleConfig);
     }
+
+    // Loading state for login button
+    const loginButton = document.querySelector('button[wire\\:click="login"]');
+    loginButton.addEventListener('click', function() {
+        this.disabled = true; // Disable the button
+        this.classList.add('opacity-50'); // Change appearance
+    });
 });

@@ -4,14 +4,12 @@
 }
 
 .btn-masuk {
-    background-color: #3b82f6;
-    /* Biru cerah */
+    background-color: #3b82f6; /* Bright Blue */
     border: 1px solid rgba(59, 130, 246, 0.5);
 }
 
 .btn-daftar {
-    background-color: #10b981;
-    /* Hijau tosca */
+    background-color: #10b981; /* Teal Green */
     border: 1px solid rgba(16, 185, 129, 0.5);
 }
 
@@ -20,19 +18,24 @@
     @apply shadow-xl -translate-y-1;
 }
 
+/* Focus Effect */
+.btn-auth:focus {
+    @apply outline-none ring-2 ring-purple-300;
+}
+
 /* Icon Style */
 .btn-auth .btn-icon {
     @apply mr-2 transition-transform duration-300 group-hover:rotate-6;
 }
 
-/* Responsif */
+/* Responsive */
 @media (max-width: 640px) {
     .btn-auth {
         @apply w-full;
     }
 }
 
-/* Tambahan Animasi */
+/* Additional Animation */
 @keyframes fadeIn {
     from {
         opacity: 0;

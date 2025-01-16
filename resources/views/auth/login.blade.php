@@ -21,6 +21,11 @@
                     </div>
                 </div>
 
+                <!-- Admin Access Message -->
+                <div class="text-red-500 text-center mb-4">
+                    <p>Only admin users can log in.</p>
+                </div>
+
                 <!-- Login Form -->
                 <form method="POST" action="{{ route('login') }}" class="space-y-6">
                     @csrf
@@ -94,14 +99,10 @@
                     </button>
                 </form>
 
-                <!-- Register Link -->
+                <!-- Register Link Removed -->
                 <div class="mt-6 text-center">
                     <p class="text-sm text-gray-600">
-                        Belum punya akun?
-                        <a href="{{ route('register') }}"
-                            class="text-blue-600 hover:text-blue-800 font-medium transition duration-300">
-                            Daftar sekarang
-                        </a>
+                        <!-- Registration Link Removed -->
                     </p>
                 </div>
             </div>
