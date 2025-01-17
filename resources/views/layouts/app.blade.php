@@ -5,18 +5,22 @@
     @include('components.meta-title', ['title' => $title ?? 'Default Title'])
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://unpkg.com/flowbite@1.4.1/dist/flowbite.min.css" rel="stylesheet">
+    {{-- Head content --}}
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
 
-<body class="bg-gray-900 text-white">
-    @include('components.navbar') <!-- Include the navigation bar -->
-    @include('components.sidebar') <!-- Include the sidebar -->
+<body class="bg-gray-900 text-white flex flex-col min-h-screen">
+    @include('components.navbar')
 
-    <main class="container mx-auto mt-20 px-4 sm:px-6 lg:px-8">
-        @yield('content') <!-- Main content will be injected here -->
-        @include('components.footer') <!-- Include the footer -->
-    </main>
+    <div class="flex flex-1">
+        @include('components.sidebar')
 
-    <script src="https://unpkg.com/flowbite@1.4.1/dist/flowbite.js"></script>
+        <main class="flex-grow p-4">
+            @yield('content')
+            @include('components.footer')
+        </main>
+    </div>
+    @stack('scripts')
 </body>
 
 </html>

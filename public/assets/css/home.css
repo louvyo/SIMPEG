@@ -1,52 +1,19 @@
 /* Button Styles */
 .btn-auth {
-    @apply relative px-8 py-3 rounded-lg text-white font-medium text-base uppercase tracking-wider transition-all duration-300 transform hover:scale-105 focus:outline-none shadow-md text-center inline-block group;
+    @apply relative px-8 py-3 rounded-lg text-white font-medium text-base uppercase tracking-wider transition-all duration-300 transform hover:scale-105 focus:outline-none;
 }
 
-.btn-masuk {
-    background-color: #3b82f6; /* Bright Blue */
-    border: 1px solid rgba(59, 130, 246, 0.5);
+/* Dashboard Widget Styles */
+.dashboard-content .bg-white {
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.btn-daftar {
-    background-color: #10b981; /* Teal Green */
-    border: 1px solid rgba(16, 185, 129, 0.5);
+.dashboard-content .bg-white:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
-/* Hover Effect */
-.btn-auth:hover {
-    @apply shadow-xl -translate-y-1;
-}
-
-/* Focus Effect */
-.btn-auth:focus {
-    @apply outline-none ring-2 ring-purple-300;
-}
-
-/* Icon Style */
-.btn-auth .btn-icon {
-    @apply mr-2 transition-transform duration-300 group-hover:rotate-6;
-}
-
-/* Responsive */
-@media (max-width: 640px) {
-    .btn-auth {
-        @apply w-full;
-    }
-}
-
-/* Additional Animation */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
+/* Additional Styles */
 body {
-    animation: fadeIn 1s ease-out;
+    background-color: #f3f4f6; /* Light background for better contrast */
 }

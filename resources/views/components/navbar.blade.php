@@ -42,20 +42,16 @@
                         </div>
                         <ul class="py-1" role="none">
                             <li>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700"
-                                    role="menuitem">Dashboard</a>
+                                <a href="{{ route('dashboard') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700" role="menuitem">Dashboard</a>
                             </li>
                             <li>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700"
-                                    role="menuitem">Settings</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700" role="menuitem">Settings</a>
                             </li>
                             <li>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700"
-                                    role="menuitem">Earnings</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700" role="menuitem">Earnings</a>
                             </li>
                             <li>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700"
-                                    role="menuitem">Sign out</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700" role="menuitem">Sign out</a>
                             </li>
                         </ul>
                     </div>

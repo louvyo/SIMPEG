@@ -62,8 +62,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Loading state for login button
     const loginButton = document.querySelector('button[wire\\:click="login"]');
-    loginButton.addEventListener('click', function() {
-        this.disabled = true; // Disable the button
-        this.classList.add('opacity-50'); // Change appearance
-    });
+    if (loginButton) {
+        loginButton.addEventListener('click', function() {
+            this.disabled = true; // Disable the button
+            this.classList.add('opacity-50'); // Change appearance
+        });
+    } // Closing bracket added here
+
+    // Dashboard specific functionality
+    console.log("Dashboard scripts initialized.");
 });
