@@ -3,9 +3,10 @@
     aria-label="Sidebar">
     <div class="h-full px-3 pb-4 overflow-y-auto bg-gray-800">
         <ul class="space-y-2 font-medium">
+            {{-- Dashboard --}}
             <li>
                 <a href="{{ route('dashboard') }}"
-                    class="flex items-center p-2 text-white rounded-lg hover:bg-gray-700 group">
+                    class="flex items-center p-2 text-white rounded-lg hover:bg-gray-700 group {{ request()->routeIs('dashboard') ? 'bg-gray-700' : '' }}">
                     <svg class="w-5 h-5 text-gray-400 transition duration-75 group-hover:text-white" aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
                         <path
@@ -16,36 +17,59 @@
                     <span class="ms-3">Dashboard</span>
                 </a>
             </li>
+
+            {{-- Manajemen Pegawai --}}
             <li>
                 <a href="#"
-                    class="flex items-center p-2 text-white rounded-lg hover:bg-gray-700 group">
-                    <svg class="flex-shrink-0 w-5 h-5 text-gray-400 transition duration-75 group-hover:text-white"
-                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    class="flex items-center p-2 text-white rounded-lg hover:bg-gray-700 group {{ request()->routeIs('employees.*') ? 'bg-gray-700' : '' }}">
+                    <svg class="w-5 h-5 text-gray-400 transition duration-75 group-hover:text-white" fill="currentColor"
+                        viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path
-                            d="M6.143 0H1.857A1.857 1.857 0 0 0 0 1.857v4.286C0 7.169.831 8 1.857 8h4.286A1.857 1.857 0 0 0 8 6.143V1.857A1.857 1.857 0 0 0 6.143 0Zm10 0h-4.286A1.857 1.857 0 0 0 10 1.857v4.286C10 7.169 10.831 8 11.857 8h4.286A1.857 1.857 0 0 0 18 6.143V1.857A1.857 1.857 0 0 0 16.143 0Zm-10 10H1.857A1.857 1.857 0 0 0 0 11.857v4.286C0 17.169.831 18 1.857 18h4.286A1.857 1.857 0 0 0 8 16.143v-4.286A1.857 1.857 0 0 0 6.143 10Zm10 0h-4.286A1.857 1.857 0 0 0 10 11.857v4.286c0 1.026.831 1.857 1.857 1.857h4.286A1.857 1.857 0 0 0 18 16.143v-4.286A1.857 1.857 0 0 0 16.143 10Z" />
+                            d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.5 17c0-.23.01-.457.03-.68a5.988 5.988 0 00-7.56 0 5.996 5.996 0 00-2.47 4.461 1 1 0 001 1.05h8a1 1 0 001-1.05c-.03-.223-.05-.45-.05-.68zM16 14a4 4 0 10-8 0 4 4 0 008 0zm2 2.75a.75.75 0 00.75-.75v-1.5a.75.75 0 00-1.5 0v1.5c0 .414.336.75.75.75z" />
                     </svg>
-                    <span class="flex-1 ms-3 whitespace-nowrap">Pegawai</span>
+                    <span class="ms-3">Manajemen Pegawai</span>
                 </a>
             </li>
-            <li>
-                <a href="#" class="flex items-center p-2 text-white rounded-lg hover:bg-gray-700 group">
-                    <svg class="flex-shrink-0 w-5 h-5 text-gray-400 transition duration-75 group-hover:text-white"
-                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                        <path
-                            d="m17.418 3.623-.018-.008a6.713 6.713 0 0 0-2.4-.569V2h1a1 1 0 1 0 0-2h-2a1 1 0 0 0-1 1v2H9.89A6.977 6.977 0 0 1 12 8v5h-2V8A5 5 0 1 0 0 8v6a1 1 0 0 0 1 1h8v4a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-4h6a1 1 0 0 0 1-1V8a5 5 0 0 0-2.582-4.377ZM6 12H4a1 1 0 0 1 0-2h2a1 1 0 0 1 0 2Z" />
-                    </svg>
-                    <span class="flex-1 ms-3 whitespace-nowrap">Riwayat Cuti</span>
-                </a>
-            </li>
+
+            {{-- Riwayat Cuti --}}
             <li>
                 <a href="#"
-                    class="flex items-center p-2 text-white rounded-lg hover:bg-gray-700 group">
-                    <svg class="flex-shrink-0 w-5 h-5 text-gray-400 transition duration-75 group-hover:text-white"
-                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                        <path
-                            d="M6.143 0H1.857A1.857 1.857 0 0 0 0 1.857v4.286C0 7.169.831 8 1.857 8h4.286A1.857 1.857 0 0 0 8 6.143V1.857A1.857 1.857 0 0 0 6.143 0Zm10 0h-4.286A1.857 1.857 0 0 0 10 1.857v4.286C10 7.169 10.831 8 11.857 8h4.286A1.857 1.857 0 0 0 18 6.143V1.857A1.857 1.857 0 0 0 16.143 0Zm-10 10H1.857A1.857 1.857 0 0 0 0 11.857v4.286C0 17.169.831 18 1.857 18h4.286A1.857 1.857 0 0 0 8 16.143v-4.286A1.857 1.857 0 0 0 6.143 10Zm10 0h-4.286A1.857 1.857 0 0 0 10 11.857v4.286c0 1.026.831 1.857 1.857 1.857h4.286A1.857 1.857 0 0 0 18 16.143v-4.286A1.857 1.857 0 0 0 16.143 10Z" />
+                    class="flex items-center p-2 text-white rounded-lg hover:bg-gray-700 group {{ request()->routeIs('leave.*') ? 'bg-gray-700' : '' }}">
+                    <svg class="w-5 h-5 text-gray-400 transition duration-75 group-hover:text-white" fill="currentColor"
+                        viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                            clip-rule="evenodd" />
                     </svg>
-                    <span class="flex-1 ms-3 whitespace-nowrap">Settings</span>
+                    <span class="ms-3">Riwayat Cuti</span>
+                </a>
+            </li>
+
+            {{-- Penilaian Kinerja --}}
+            <li>
+                <a href="#"
+                    class="flex items-center p-2 text-white rounded-lg hover:bg-gray-700 group {{ request()->routeIs('performance.*') ? 'bg-gray-700' : '' }}">
+                    <svg class="w-5 h-5 text-gray-400 transition duration-75 group-hover:text-white" fill="currentColor"
+                        viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
+                    </svg>
+                    <span class="ms-3">Penilaian Kinerja</span>
+                </a>
+            </li>
+
+            {{-- Pengaturan --}}
+            <li>
+                <a href="#"
+                    class="flex items-center p-2 text-white rounded-lg hover:bg-gray-700 group {{ request()->routeIs('settings.*') ? 'bg-gray-700' : '' }}">
+                    <svg class="w-5 h-5 text-gray-400 transition duration-75 group-hover:text-white" fill="currentColor"
+                        viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.532 1.532 0 01.947-2.287c1.561-.379 1.561-2.6 0 ```php
+                        2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 15a5 5 0 100-10 5 5 0 000 10z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    <span class="ms-3">Pengaturan</span>
                 </a>
             </li>
         </ul>
