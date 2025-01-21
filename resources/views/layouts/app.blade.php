@@ -29,7 +29,7 @@
         @endif
 
         {{-- Main Content Area --}}
-        <main class="flex-grow p-4 ml-64"> {{-- ml-64 untuk mengakomodasi sidebar --}}
+        <main class="flex-grow p-4 ml-64 mt-20"> {{-- ml-64 untuk mengakomodasi sidebar --}}
             @yield('content')
         </main>
     </div>
