@@ -7,7 +7,8 @@
     <link href="https://unpkg.com/flowbite@1.4.1/dist/flowbite.min.css" rel="stylesheet">
     {{-- Head content --}}
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs" defer></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
 </head>
 
 <body class="bg-gray-900 text-white flex flex-col min-h-screen">
