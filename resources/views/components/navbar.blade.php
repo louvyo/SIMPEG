@@ -15,13 +15,10 @@
                         </path>
                     </svg>
                 </button>
-                <a href="/" class="flex items-center ms-2 md:me-24 group">
-                    <div
-                        class="bg-blue-600 p-2 rounded-lg shadow-lg group-hover:bg-blue-700 transition-colors duration-200">
-                        <img src="https://flowbite.com/docs/images/logo.svg" class="h-8" alt="Logo" />
-                    </div>
-                    <span
-                        class="ml-3 text-xl font-bold tracking-tight text-white group-hover:text-blue-400 transition-colors duration-200">
+                <a href="{{ route('dashboard') }}" class="flex items-center group">
+                    <img src="{{ asset('storage/assets/images/LOGO PUPR - 2023.png') }}" alt="Logo Perusahaan"
+                        class="h-10 w-auto mr-3 transition-transform group-hover:scale-105 rounded-lg">
+                    <span class="text-xl font-bold text-white group-hover:text-blue-300 transition-colors">
                         SIMPEG
                     </span>
                 </a>
@@ -69,7 +66,7 @@
                         class="flex items-center space-x-3 p-2 rounded-xl hover:bg-gray-700/50 focus:outline-none focus:ring-2 focus:ring-gray-600 transition-all duration-200"
                         aria-expanded="false">
                         <img class="w-8 h-8 rounded-lg border-2 border-gray-600 hover:border-blue-500 transition-colors duration-200"
-                            src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo">
+                            src="{{ asset('storage/assets/images/profile/default-avatar.jpg') }}" alt="user photo">
                         <div class="hidden md:block text-left">
                             <p class="text-sm font-medium text-white">Neil Sims</p>
                             <p class="text-xs text-gray-400">Administrator</p>
@@ -94,7 +91,7 @@
                             <div class="p-4">
                                 <div class="flex items-center space-x-3 mb-3">
                                     <img class="w-10 h-10 rounded-lg border-2 border-blue-500"
-                                        src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                                        src="{{ asset('storage/assets/images/profile/default-avatar.jpg') }}"
                                         alt="user photo">
                                     <div>
                                         <h4 class="text-sm font-medium text-white">Neil Sims</h4>

@@ -12,8 +12,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Call the AdminUserSeeder
-        $this->call(AdminUserSeeder::class);
+        // Call 
+        $this->call([
+            BidangSeeder::class,
+            AdminUserSeeder::class,
+            PegawaiSeeder::class,
+            // seeder lainnya
+        ]);
 
         // Check if the test user already exists before creating it
         if (!User::where('email', 'test@example.com')->exists()) {

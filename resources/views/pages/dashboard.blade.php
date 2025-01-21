@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="ml-[260px] mr-6 mt-20 min-h-screen bg-gray-900 space-y-6">
+    <div class="space-y-6">
         {{-- Header Dashboard --}}
         <div class="flex justify-between items-center mb-8">
             <div>
@@ -123,8 +123,8 @@
         </div>
 
         {{-- Area Utama Dashboard --}}
-        {{-- Grafik Analitik --}}
         <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+            {{-- Grafik Analitik --}}
             <div class="md:col-span-8 bg-gray-800 rounded-lg shadow-lg p-6 border border-gray-700">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-xl font-semibold text-white">Analitik Performa Kepegawaian</h2>
@@ -137,49 +137,117 @@
                 {{-- Kontainer Chart --}}
                 <div id="performanceChart" class="h-[400px] w-full"></div>
             </div>
-        </div>
 
-        {{-- Aktivitas Terkini --}}
-        <div class="md:col-span-4 bg-gray-800 rounded-lg shadow-lg p-6 border border-gray-700">
-            <h2 class="text-xl font-semibold text-white mb-4">Aktivitas Terkini</h2>
-            <div class="space-y-4">
-                @php
-                    $activities = [
-                        [
-                            'icon' => 'user-plus',
-                            'action' => 'Pengguna baru terdaftar',
-                            'time' => '2 menit lalu',
-                            'color' => 'green',
-                        ],
-                        [
-                            'icon' => 'file-upload',
-                            'action' => 'Dokumen diunggah',
-                            'time' => '15 menit lalu',
-                            'color' => 'blue',
-                        ],
-                        [
-                            'icon' => 'bell',
-                            'action' => 'Notifikasi sistem',
-                            'time' => '1 jam lalu',
-                            'color' => 'yellow',
-                        ],
-                    ];
-                @endphp
+            {{-- Aktivitas Terkini --}}
+            <div class="md:col-span-8 bg-gray-800 rounded-lg shadow-lg p-6 border border-gray-700">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-semibold text-white">Aktivitas Terkini</h2>
+                    <button class="text-sm text-gray-400 hover:text-white transition">
+                        Lihat Semua
+                    </button>
+                </div>
 
-                @foreach ($activities as $activity)
-                    <div class="flex items-center space-x-3 bg-gray-700 p-3 rounded-lg hover:bg-gray-600 transition">
-                        <div class="bg-{{ $activity['color'] }}-900 p-2 rounded-full">
-                            <i class="fas fa-{{ $activity['icon'] }} text-{{ $activity['color'] }}-500 text-lg"></i>
+                <div class="space-y-4">
+                    @php
+                        $activities = [
+                            [
+                                'icon' => 'user-plus',
+                                'action' => 'Pengguna baru terdaftar',
+                                'details' => 'Neil Sims bergabung',
+                                'time' => '2 menit lalu',
+                                'color' => 'green',
+                                'badge' => 'Baru',
+                            ],
+                            [
+                                'icon' => 'file-upload',
+                                'action' => 'Dokumen diunggah',
+                                'details' => 'Laporan kinerja Q2 2023',
+                                'time' => '15 menit lalu',
+                                'color' => 'blue',
+                                'badge' => 'Dokumen',
+                            ],
+                            [
+                                'icon' => 'bell',
+                                'action' => 'Notifikasi Cuti',
+                                'details' => 'Pengajuan cuti disetujui',
+                                'time' => '1 jam lalu',
+                                'color' => 'yellow',
+                                'badge' => 'Cuti',
+                            ],
+                            [
+                                'icon' => 'chart-line',
+                                'action' => 'Penilaian Kinerja',
+                                'details' => 'Evaluasi bulanan selesai',
+                                'time' => '3 jam lalu',
+                                'color' => 'purple',
+                                'badge' => 'Kinerja',
+                            ],
+                        ];
+                    @endphp
+
+                    @foreach ($activities as $activity)
+                        <div
+                            class="flex items-center space-x-4 bg-gray-700 p-3 rounded-lg hover:bg-gray-600 transition group">
+                            {{-- Ikon Aktivitas --}}
+                            <div class="flex-shrink-0">
+                                <div
+                                    class="w-10 h-10 rounded-full flex items-center justify-center 
+                        bg-{{ $activity['color'] }}-900/50">
+                                    <i
+                                        class="fas fa-{{ $activity['icon'] }} text-{{ $activity['color'] }}-500 text-lg"></i>
+                                </div>
+                            </div>
+
+                            {{-- Konten Aktivitas --}}
+                            <div class="flex-grow">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h4
+                                            class="text-sm font-medium text-white group-hover:text-{{ $activity['color'] }}-400 transition">
+                                            {{ $activity['action'] }}
+                                        </h4>
+                                        <p class="text-xs text-gray-400">
+                                            {{ $activity['details'] }}
+                                        </p>
+                                    </div>
+
+                                    {{-- Badge --}}
+                                    <span
+                                        class="text-xs px-2 py-1 rounded-full 
+                            bg-{{ $activity['color'] }}-500/20 
+                            text-{{ $activity['color'] }}-400">
+                                        {{ $activity['badge'] }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            {{-- Waktu --}}
+                            <div class="text-xs text-gray-500">
+                                {{ $activity['time'] }}
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+
+                {{-- Statistik Aktivitas --}}
+                <div class="mt-6 bg-gray-700 rounded-lg p-4">
+                    <div class="grid grid-cols-3 gap-2 text-center">
+                        <div>
+                            <p class="text-sm text-gray-400">Total</p>
+                            <p class="text-lg font-bold text-white">42</p>
                         </div>
                         <div>
-                            <p class="text-sm font-medium text-white">{{ $activity['action'] }}</p>
-                            <p class="text-xs text-gray-400">{{ $activity['time'] }}</p>
+                            <p class="text-sm text-gray-400">Hari Ini</p>
+                            <p class="text-lg font-bold text-green-500">12</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-400">Belum Dibaca</p>
+                            <p class="text-lg font-bold text-yellow-500">3</p>
                         </div>
                     </div>
-                @endforeach
+                </div>
             </div>
         </div>
-    </div>
     </div>
 @endsection
 
