@@ -56,30 +56,30 @@ class Pegawai extends Model
             : asset('images/profile/default-avatar.jpg');
     }
 
-    // Mutator untuk generate NIP otomatis
-    public function setNipAttribute($value)
-    {
-        // Jika NIP kosong, generate otomatis
-        $this->attributes['nip'] = $value ?: $this->generateNIP();
-    }
+    // // Mutator untuk generate NIP otomatis
+    // public function setNipAttribute($value)
+    // {
+    //     // Jika NIP kosong, generate otomatis
+    //     $this->attributes['nip'] = $value ?: $this->generateNIP();
+    // }
 
-    // Generate NIP otomatis
-    protected function generateNIP()
-    {
-        // Format: BIDANG-TAHUN-URUTAN
-        $bidangKode = $this->bidang ? $this->bidang->kode_bidang : '00';
-        $tahun = date('Y');
-        $urutan = str_pad(
-            self::where('bidang_id', $this->bidang_id)
-                ->whereYear('created_at', $tahun)
-                ->count() + 1,
-            4,
-            '0',
-            STR_PAD_LEFT
-        );
+    // // Generate NIP otomatis
+    // protected function generateNIP()
+    // {
+    //     // Format: BIDANG-TAHUN-URUTAN
+    //     $bidangKode = $this->bidang ? $this->bidang->kode_bidang : '00';
+    //     $tahun = date('Y');
+    //     $urutan = str_pad(
+    //         self::where('bidang_id', $this->bidang_id)
+    //             ->whereYear('created_at', $tahun)
+    //             ->count() + 1,
+    //         4,
+    //         '0',
+    //         STR_PAD_LEFT
+    //     );
 
-        return "{$bidangKode}-{$tahun}-{$urutan}";
-    }
+    //     return "{$bidangKode}-{$tahun}-{$urutan}";
+    // }
 
     // Scope untuk filter status
     public function scopeAktif($query)

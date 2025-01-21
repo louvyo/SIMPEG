@@ -22,6 +22,17 @@
                         @enderror
                     </div>
 
+                    {{-- NIP --}}
+                    <div>
+                        <label class="block text-white mb-2">NIP</label>
+                        <input type="text" name="nip" value="{{ old('nip') }}"
+                            class="w-full bg-gray-700 text-white rounded-lg px-4 py-2 @error('nip') border-red-500 @enderror"
+                            placeholder="Masukkan NIP">
+                        @error('nip')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
                     {{-- Email --}}
                     <div>
                         <label class="block text-white mb-2">Email</label>

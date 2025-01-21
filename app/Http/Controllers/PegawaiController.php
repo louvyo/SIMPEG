@@ -15,17 +15,18 @@ class PegawaiController extends Controller
      */
     public function index(Request $request)
     {
-        // Ambil filter dari request
-        $filters = $request->only(['search', 'bidang', 'status']);
+        $bidangs = Bidang::all(); // Tambahkan ini untuk dropdown bidang
 
-        // Query pegawai dengan filter
+        $filters = $request->only(['search', 'bidang', 'status']);
         $pegawais = Pegawai::with('bidang')
             ->filter($filters)
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
-        // Ambil daftar bidang untuk filter
-        $bidangs = Bidang::all();
+        return view('pages.pegawai.index', compact('pegawais', 'bidangs'));
+
+        // // Ambil daftar bidang untuk filter
+        // $bidangs = Bidang::all();
 
         // Corrected view path
         return view('pages.pegawai.index', [
@@ -68,6 +69,7 @@ class PegawaiController extends Controller
 
         // Simpan data pegawai
         $pegawai = Pegawai::create([
+            'nip' => $request->nip, // Input manual
             'nama' => $request->nama,
             'email' => $request->email,
             'bidang_id' => $request->bidang_id,
@@ -134,6 +136,7 @@ class PegawaiController extends Controller
 
         // Update data pegawai
         $pegawai->update([
+            'nip' => $request->nip, // Input manual
             'nama' => $request->nama,
             'email' => $request->email,
             'bidang_id' => $request->bidang_id,
@@ -175,6 +178,7 @@ class PegawaiController extends Controller
     private function validatePegawai(Request $request, $pegawaiId = null)
     {
         return Validator::make($request->all(), [
+            'nip' => 'required|unique:pegawais,nip,' . $pegawaiId,
             'nama' => 'required|string|max:255',
             'email' => 'required|email|unique:pegawais,email,' . $pegawaiId,
             'bidang_id' => 'required|exists:bidangs,id',

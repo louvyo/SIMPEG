@@ -13,6 +13,17 @@
                 @method('PUT')
 
                 <div class="grid grid-cols-2 gap-6">
+                    {{-- NIP --}}
+                    <div>
+                        <label class="block text-white mb-2">NIP</label>
+                        <input type="text" name="nip" value="{{ old('nip', $pegawai->nip) }}"
+                            class="w-full bg-gray-700 text-white rounded-lg px-4 py-2 @error('nip') border-red-500 @enderror"
+                            required>
+                        @error('nip')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
                     {{-- Nama Lengkap --}}
                     <div>
                         <label class="block text-white mb-2">Nama Lengkap</label>
@@ -23,7 +34,9 @@
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
+                </div>
 
+                <div class="grid grid-cols-2 gap-6">
                     {{-- Email --}}
                     <div>
                         <label class="block text-white mb-2">Email</label>
@@ -34,9 +47,7 @@
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
-                </div>
 
-                <div class="grid grid-cols-2 gap-6">
                     {{-- Bidang --}}
                     <div>
                         <label class="block text-white mb-2">Bidang</label>
@@ -55,7 +66,9 @@
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
+                </div>
 
+                <div class="grid grid-cols-2 gap-6">
                     {{-- Jabatan --}}
                     <div>
                         <label class="block text-white mb-2">Jabatan</label>
@@ -66,9 +79,7 @@
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
-                </div>
 
-                <div class="grid grid-cols-2 gap-6">
                     {{-- Tanggal Masuk --}}
                     <div>
                         <label class="block text-white mb-2">Tanggal Masuk</label>
@@ -80,7 +91,9 @@
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
+                </div>
 
+                <div class="grid grid-cols-2 gap-6">
                     {{-- Jenis Kelamin --}}
                     <div>
                         <label class="block text-white mb-2">Jenis Kelamin</label>
@@ -101,9 +114,7 @@
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
-                </div>
 
-                <div class="grid grid-cols-2 gap-6">
                     {{-- No Telepon --}}
                     <div>
                         <label class="block text-white mb-2">No Telepon</label>
@@ -113,26 +124,31 @@
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
+                </div>
 
-                    {{-- Avatar --}}
-                    <div>
-                        <label class="block text-white mb-2">Foto Profil</label>
-                        <div class="flex items-center space-x-4">
-                            @if ($pegawai->avatar)
-                                <img src="{{ $pegawai->avatar_url }}" alt="Avatar"
-                                    class="w-20 h-20 rounded-full object-cover">
-                            @endif
-                            <input type="file" name="avatar"
-                                class="w-full bg-gray-700 text-white rounded-lg px-4 py-2 @error('avatar') border-red-500 @enderror"
-                                accept="image/*">
-                            @error('avatar')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
+                {{-- Avatar --}}
+                <div>
+                    <label class="block text-white mb-2">Foto Profil</label>
+                    <div class="flex items-center space-x-4">
+                        @if ($pegawai->avatar)
+                            <img src="{{ $pegawai->avatar_url }}" alt="Avatar"
+                                class="w-20 h-20 rounded-full object-cover">
+                        @endif
+                        <input type="file" name ="avatar"
+                            class="w-full bg-gray-700 text-white rounded-lg px-4 py-2 @error('avatar') border-red-500 @enderror"
+                            accept="image/*">
+                        @error('avatar')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
 
-                <div class="mt-6">
+                {{-- Tombol Aksi --}}
+                <div class="flex justify-end space-x-4 mt-6">
+                    <a href="{{ route('pegawai.index') }}"
+                        class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition">
+                        Batal
+                    </a>
                     <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
                         Simpan Perubahan
                     </button>
