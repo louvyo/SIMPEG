@@ -11,7 +11,7 @@
                 <!-- Logo and Title Section -->
                 <div class="text-center space-y-4 mb-10">
                     <div class="flex justify-center">
-                        <img src="{{ asset('assets/images/auth/logo-pupr.jpg') }}" alt="PUPR Logo"
+                        <img src="{{ asset('assets/images/LOGO PUPR - 2023.png') }}" alt="PUPR Logo"
                             class="h-24 w-auto object-contain shadow-md 
                                     transition duration-500 hover:rotate-6 hover:scale-110">
                     </div>

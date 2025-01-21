@@ -35,7 +35,7 @@
             class="relative z-10 flex-grow flex flex-col items-center justify-center px-4 py-8 text-center page-content">
             {{-- Logo --}}
             <div class="mb-8" x-show="pageLoaded" x-transition:enter.duration.600ms>
-                <img src="{{ asset('assets/images/auth/logo-pupr.jpg') }}" alt="Logo PUPR"
+                <img src="{{ asset('assets/images/LOGO PUPR - 2023.png') }}" alt="Logo PUPR"
                     class="h-24 w-24 md:h-32 md:w-32 mx-auto rounded-full shadow-2xl ring-4 ring-white/20 
                            transition-all duration-500 transform hover:scale-110 hover:rotate-6">
             </div>

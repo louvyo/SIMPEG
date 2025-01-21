@@ -16,7 +16,7 @@
                     </svg>
                 </button>
                 <a href="{{ route('dashboard') }}" class="flex items-center group">
-                    <img src="{{ asset('storage/assets/images/LOGO PUPR - 2023.png') }}" alt="Logo Perusahaan"
+                    <img src="{{ asset('assets/images/LOGO PUPR - 2023.png') }}" alt="Logo Perusahaan"
                         class="h-10 w-auto mr-3 transition-transform group-hover:scale-105 rounded-lg">
                     <span class="text-xl font-bold text-white group-hover:text-blue-300 transition-colors">
                         SIMPEG
