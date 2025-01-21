@@ -79,10 +79,10 @@
                                 class="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
                             <span class="text-sm text-gray-600">Ingat saya</span>
                         </label>
-                        <a href="{{ route('password.request') }}"
+                        {{-- <a href="{{ route('password.request') }}"
                             class="text-sm text-blue-600 hover:text-blue-800 transition duration-300">
                             Lupa password?
-                        </a>
+                        </a> --}}
                     </div>
 
                     <!-- Login Button -->

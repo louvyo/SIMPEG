@@ -5,85 +5,109 @@ namespace App\Http\Controllers;
 use App\Models\Pegawai;
 use App\Models\Bidang;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 
 class PegawaiController extends Controller
 {
     /**
-     * Menampilkan daftar pegawai
+     * Menampilkan daftar pegawai dengan fitur pencarian dan filter
      */
     public function index(Request $request)
     {
-        $bidangs = Bidang::all(); // Tambahkan ini untuk dropdown bidang
+        // Query dasar untuk pegawai
+        $query = Pegawai::query()->with('bidang');
 
-        $filters = $request->only(['search', 'bidang', 'status']);
-        $pegawais = Pegawai::with('bidang')
-            ->filter($filters)
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
+        // Fitur Pencarian
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('nip', 'like', "%{$search}%")
+                    ->orWhere('nama', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhereHas('bidang', function ($subQuery) use ($search) {
+                        $subQuery->where('nama_bidang', 'like', "%{$search}%");
+                    });
+            });
+        }
 
-        return view('pages.pegawai.index', compact('pegawais', 'bidangs'));
+        // Fitur Filter Bidang
+        if ($request->filled('bidang')) {
+            $query->where('bidang_id', $request->input('bidang'));
+        }
 
-        // // Ambil daftar bidang untuk filter
-        // $bidangs = Bidang::all();
+        // Fitur Filter Status
+        if ($request->filled('status')) {
+            $query->where('status', $request->input('status'));
+        }
 
-        // Corrected view path
+        // Fitur Sorting
+        $sortBy = $request->input('sort_by', 'created_at');
+        $sortDirection = $request->input('sort_direction', 'desc');
+
+        // Validasi kolom sorting
+        $allowedSortColumns = ['nip', 'nama', 'email', 'status', 'created_at', 'tanggal_masuk'];
+        if (!in_array($sortBy, $allowedSortColumns)) {
+            $sortBy = 'created_at';
+        }
+        if (!in_array(strtolower($sortDirection), ['asc', 'desc'])) {
+            $sortDirection = 'desc';
+        }
+
+        $query->orderBy($sortBy, $sortDirection);
+
+        // Ambil data pegawai dengan pagination
+        $pegawais = $query->paginate(10);
+
+        // Ambil daftar bidang untuk dropdown filter
+        $bidangs = Bidang::all();
+
+        // Kembalikan view dengan data
         return view('pages.pegawai.index', [
             'pegawais' => $pegawais,
             'bidangs' => $bidangs,
-            'filters' => $filters,
-            'title' => 'Manajemen Pegawai'
+            'filterSearch' => $request->input('search'),
+            'filterBidang' => $request->input('bidang'),
+            'filterStatus' => $request->input('status'),
+            'sortBy' => $sortBy,
+            'sortDirection' => $sortDirection,
+            'totalPegawai' => Pegawai::count(),
+            'pegawaiAktif' => Pegawai::where('status', 'Aktif')->count(),
+            'pegawaiCuti' => Pegawai::where('status', 'Cuti')->count(),
+            'totalDepartemen' => Bidang::count(),
         ]);
     }
 
     /**
-     * Menampilkan form tambah pegawai
+     * Menampilkan form untuk menambah pegawai baru
      */
     public function create()
     {
         $bidangs = Bidang::all();
-        return view('pages.pegawai.create', [
-            'bidangs' => $bidangs,
-            'title' => 'Tambah Pegawai Baru'
-        ]);
+        return view('pages.pegawai.create', compact('bidangs'));
     }
 
     /**
-     * Proses penyimpanan pegawai baru
+     * Menyimpan pegawai baru ke database
      */
     public function store(Request $request)
     {
         // Validasi input
-        $validator = $this->validatePegawai($request);
-
-        // Jika validasi gagal
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
-
-        // Proses upload avatar
-        $avatarPath = $this->handleAvatarUpload($request);
-
-        // Simpan data pegawai
-        $pegawai = Pegawai::create([
-            'nip' => $request->nip, // Input manual
-            'nama' => $request->nama,
-            'email' => $request->email,
-            'bidang_id' => $request->bidang_id,
-            'jabatan' => $request->jabatan,
-            'tanggal_masuk' => $request->tanggal_masuk,
-            'status' => 'Aktif',
-            'no_telepon' => $request->no_telepon,
-            'jenis_kelamin' => $request->jenis_kelamin,
-            'avatar' => $avatarPath
+        $request->validate([
+            'nip' => 'required|unique:pegawais,nip',
+            'nama' => 'required|string|max:255',
+            'email' => 'required|email|unique:pegawais,email',
+            'bidang_id' => 'required|exists:bidangs,id',
+            'jabatan' => 'required|string|max:255',
+            'tanggal_masuk' => 'required|date',
+            'status' => 'required|in:Aktif,Cuti,Non-Aktif',
+            'no_telepon' => 'nullable|string|max:20',
+            'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
+            'avatar' => 'nullable|image|max:2048'
         ]);
 
-        // Redirect dengan pesan sukses
-        return redirect()->route('pegawai.index')
-            ->with('success', 'Pegawai berhasil ditambahkan');
+        // Simpan data pegawai
+        Pegawai::create($request->all());
+
+        return redirect()->route('pegawai.index')->with('success', 'Pegawai berhasil ditambahkan');
     }
 
     /**
@@ -92,64 +116,44 @@ class PegawaiController extends Controller
     public function show($id)
     {
         $pegawai = Pegawai::with('bidang')->findOrFail($id);
-
-        return view('pages.pegawai.show', [
-            'pegawai' => $pegawai,
-            'title' => 'Detail Pegawai: ' . $pegawai->nama
-        ]);
+        return view('pages.pegawai.show', compact('pegawai'));
     }
 
     /**
-     * Menampilkan form edit pegawai
+     * Menampilkan form untuk mengedit pegawai
      */
     public function edit($id)
     {
         $pegawai = Pegawai::findOrFail($id);
         $bidangs = Bidang::all();
-
-        return view('pages.pegawai.edit', [
-            'pegawai' => $pegawai,
-            'bidangs' => $bidangs,
-            'title' => 'Edit Pegawai: ' . $pegawai->nama
-        ]);
+        return view('pages.pegawai.edit', compact('pegawai', 'bidangs'));
     }
 
     /**
-     * Proses pembaruan data pegawai
+     * Memperbarui data pegawai
      */
     public function update(Request $request, $id)
     {
         $pegawai = Pegawai::findOrFail($id);
 
         // Validasi input
-        $validator = $this->validatePegawai($request, $pegawai->id);
-
-        // Jika validasi gagal
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
-
-        // Proses upload avatar
-        $avatarPath = $this->handleAvatarUpload($request, $pegawai->avatar);
-
-        // Update data pegawai
-        $pegawai->update([
-            'nip' => $request->nip, // Input manual
-            'nama' => $request->nama,
-            'email' => $request->email,
-            'bidang_id' => $request->bidang_id,
-            'jabatan' => $request->jabatan,
-            'tanggal_masuk' => $request->tanggal_masuk,
-            'no_telepon' => $request->no_telepon,
-            'jenis_kelamin' => $request->jenis_kelamin,
-            'avatar' => $avatarPath
+        $request->validate([
+            'nip' => 'required|unique:pegawais,nip,' . $pegawai->id,
+            'nama' => 'required|string|max:255',
+            'email' => 'required|email|unique:pegawais,email,' . $pegawai->id,
+            'bidang_id' => 'required|exists:bidangs,id',
+            'jabatan' => 'required|string|max:255',
+            'tanggal_masuk' => 'required|date',
+            'status' => 'required|in:Aktif,Cuti,Non-Aktif',
+            'no_telepon' => 'nullable|string|max:20',
+            'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
+            'avatar' => 'nullable|image|max:2048'
         ]);
 
-        // Redirect dengan pesan sukses
-        return redirect()->route('pegawai.index')
-            ->with('success', 'Pegawai berhasil diperbarui');
+        // Update data pegawai
+        $pegawai->update($request->all());
+
+        return redirect()->route('pegawai.index')->with('success', 'Pegawai berhasil diperbarui');
     }
 
     /**
@@ -158,50 +162,8 @@ class PegawaiController extends Controller
     public function destroy($id)
     {
         $pegawai = Pegawai::findOrFail($id);
-
-        // Hapus avatar jika ada
-        if ($pegawai->avatar) {
-            Storage::disk('public')->delete($pegawai->avatar);
-        }
-
-        // Hapus pegawai
         $pegawai->delete();
 
-        // Redirect dengan pesan sukses
-        return redirect()->route('pegawai.index')
-            ->with('success', 'Pegawai berhasil dihapus');
-    }
-
-    /**
-     * Validasi pegawai
-     */
-    private function validatePegawai(Request $request, $pegawaiId = null)
-    {
-        return Validator::make($request->all(), [
-            'nip' => 'required|unique:pegawais,nip,' . $pegawaiId,
-            'nama' => 'required|string|max:255',
-            'email' => 'required|email|unique:pegawais,email,' . $pegawaiId,
-            'bidang_id' => 'required|exists:bidangs,id',
-            'jabatan' => 'required|string|max:255',
-            'tanggal_masuk' => 'required|date',
-            'no_telepon' => 'nullable|string|max:20',
-            'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
-            'avatar' => 'nullable|image|max:2048'
-        ]);
-    }
-
-    /**
-     * Handle avatar upload
-     */
-    private function handleAvatarUpload(Request $request, $oldAvatarPath = null)
-    {
-        if ($request->hasFile('avatar')) {
-            // Hapus avatar lama jika ada
-            if ($oldAvatarPath) {
-                Storage::disk('public')->delete($oldAvatarPath);
-            }
-            return $request->file('avatar')->store('avatars', 'public');
-        }
-        return $oldAvatarPath; // Return old path if no new file is uploaded
+        return redirect()->route('pegawai.index')->with('success', 'Pegawai berhasil dihapus');
     }
 }

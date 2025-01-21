@@ -17,6 +17,8 @@
 
     {{-- Slot untuk custom styles --}}
     @stack('styles')
+
+    @livewireStyles
 </head>
 
 <body class="bg-gray-900 text-white min-h-screen flex flex-col">
@@ -45,6 +47,8 @@
 
     {{-- Slot untuk custom scripts --}}
     @stack('scripts')
+
+    @livewireScripts
 </body>
 
 </html>

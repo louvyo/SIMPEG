@@ -103,15 +103,17 @@ class Pegawai extends Model
     public function scopeFilter($query, $filters)
     {
         $query->when($filters['search'] ?? null, function ($query, $search) {
-            $query->where(function ($query) use ($search) {
-                $query->where('nama', 'like', '%' . $search . '%')
-                    ->orWhere('nip', 'like', '%' . $search . '%')
-                    ->orWhere('email', 'like', '%' . $search . '%');
+            $query->where(function ($q) use ($search) {
+                $q->where('nama', 'like', "%{$search}%")
+                    ->orWhere('nip', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%");
             });
-        })->when($filters['bidang'] ?? null, function ($query, $bidang) {
-            $query->where('bidang_id', $bidang);
-        })->when($filters['status'] ?? null, function ($query, $status) {
-            $query->where('status', $status);
-        });
+        })
+            ->when($filters['bidang'] ?? null, function ($query, $bidang) {
+                $query->where('bidang_id', $bidang);
+            })
+            ->when($filters['status'] ?? null, function ($query, $status) {
+                $query->where('status', $status);
+            });
     }
 }
