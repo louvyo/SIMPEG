@@ -5,8 +5,7 @@ namespace App\Livewire\Pegawai;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Pegawai;
-use App\Models\Bidang; // Import the Bidang model
-use Illuminate\Support\Facades\Log;
+use App\Models\Bidang;
 
 class PegawaiTable extends Component
 {
@@ -17,6 +16,7 @@ class PegawaiTable extends Component
     public $status = '';
     public $sortBy = 'created_at';
     public $sortDirection = 'desc';
+    public $isLoading = false;
 
     public function render()
     {
@@ -37,7 +37,8 @@ class PegawaiTable extends Component
 
         return view('livewire.pegawai.pegawai-table', [
             'pegawais' => $pegawais,
-            'bidangs' => $bidangs
+            'bidangs' => $bidangs,
+            'isLoading' => $this->isLoading 
         ]);
     }
 

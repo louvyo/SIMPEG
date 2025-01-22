@@ -91,23 +91,38 @@ class PegawaiController extends Controller
     public function store(Request $request)
     {
         // Validasi input
-        $request->validate([
+        $validatedData = $request->validate([
             'nip' => 'required|unique:pegawais,nip',
             'nama' => 'required|string|max:255',
             'email' => 'required|email|unique:pegawais,email',
             'bidang_id' => 'required|exists:bidangs,id',
             'jabatan' => 'required|string|max:255',
             'tanggal_masuk' => 'required|date',
-            'status' => 'required|in:Aktif,Cuti,Non-Aktif',
-            'no_telepon' => 'nullable|string|max:20',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
+            'no_telepon' => 'nullable|string|max:20',
             'avatar' => 'nullable|image|max:2048'
         ]);
 
-        // Simpan data pegawai
-        Pegawai::create($request->all());
+        // Tambahkan status default jika tidak diberikan
+        $validatedData['status'] = $request->input('status', 'Aktif');
 
-        return redirect()->route('pegawai.index')->with('success', 'Pegawai berhasil ditambahkan');
+        // Proses upload avatar jika ada
+        if ($request->hasFile('avatar')) {
+            $avatarPath = $request->file('avatar')->store('avatars', 'public');
+            $validatedData['avatar'] = $avatarPath;
+        }
+
+        try {
+            // Buat pegawai baru
+            $pegawai = Pegawai::create($validatedData);
+
+            // Redirect dengan pesan sukses
+            return redirect()->route('pegawai.index')->with('success', 'Pegawai berhasil ditambahkan');
+        } catch (\Exception $e) {
+            // Tangani error jika gagal menyimpan
+            return back()->withErrors(['msg' => 'Gagal menyimpan data: ' . $e->getMessage()])
+                ->withInput();
+        }
     }
 
     /**
@@ -134,10 +149,11 @@ class PegawaiController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // Temukan pegawai yang akan diupdate
         $pegawai = Pegawai::findOrFail($id);
 
-        // Validasi input
-        $request->validate([
+        // Validasi input dengan aturan unik yang mempertimbangkan ID saat ini
+        $validatedData = $request->validate([
             'nip' => 'required|unique:pegawais,nip,' . $pegawai->id,
             'nama' => 'required|string|max:255',
             'email' => 'required|email|unique:pegawais,email,' . $pegawai->id,
@@ -145,15 +161,36 @@ class PegawaiController extends Controller
             'jabatan' => 'required|string|max:255',
             'tanggal_masuk' => 'required|date',
             'status' => 'required|in:Aktif,Cuti,Non-Aktif',
-            'no_telepon' => 'nullable|string|max:20',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
+            'no_telepon' => 'nullable|string|max:20',
             'avatar' => 'nullable|image|max:2048'
         ]);
 
-        // Update data pegawai
-        $pegawai->update($request->all());
+        // Proses upload avatar jika ada
+        if ($request->hasFile('avatar')) {
+            // Hapus avatar lama jika ada
+            if ($pegawai->avatar && \Storage::disk('public')->exists($pegawai->avatar)) {
+                \Storage::disk('public')->delete($pegawai->avatar);
+            }
 
-        return redirect()->route('pegawai.index')->with('success', 'Pegawai berhasil diperbarui');
+            // Simpan avatar baru
+            $avatarPath = $request->file('avatar')->store('avatars', 'public');
+            $validatedData['avatar'] = $avatarPath;
+        }
+
+        try {
+            // Update data pegawai
+            $pegawai->update($validatedData);
+
+            // Redirect dengan pesan sukses
+            return redirect()->route('pegawai.index')
+                ->with('success', 'Data pegawai berhasil diperbarui');
+        } catch (\Exception $e) {
+            // Tangani error jika gagal menyimpan
+            return back()
+                ->withErrors(['msg' => 'Gagal memperbarui data: ' . $e->getMessage()])
+                ->withInput();
+        }
     }
 
     /**
