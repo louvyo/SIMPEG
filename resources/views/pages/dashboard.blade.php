@@ -3,24 +3,16 @@
 @section('content')
     <div class="space-y-6">
         {{-- Header Dashboard --}}
-        <div class="flex justify-between items-center mb-8">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-8 pl-5 md:pl-8 lg:pl-12">
             <div>
-                <h1 class="text-3xl font-bold text-white">Dashboard</h1>
-                <p class="text-sm text-gray-400">
-                    Selamat datang, {{ Auth::user()->name }} - Overview sistem Anda
+                <h1
+                    class="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600 mb-3">
+                    Dashboard
+                </h1>
+                <p class="text-gray-400 flex items-center">
+                    <i class="fas fa-tachometer-alt mr-2 text-blue-500"></i>
+                    Overview sistem Anda
                 </p>
-            </div>
-
-            {{-- Tombol Aksi --}}
-            <div class="flex space-x-3">
-                <button
-                    class="btn btn-primary flex items-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-                    <i class="fas fa-plus mr-2"></i> Tambah Baru
-                </button>
-                <button
-                    class="btn btn-outline-secondary flex items-center border border-gray-600 text-gray-300 px-4 py-2 rounded-lg hover:bg-gray-800 transition">
-                    <i class="fas fa-download mr-2"></i> Laporan
-                </button>
             </div>
         </div>
 

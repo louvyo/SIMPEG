@@ -39,7 +39,7 @@
 
             <!-- Riwayat Cuti -->
             <li>
-                <a href="#"
+                <a href="{{ route('cuti.index') }}"
                     class="flex items-center p-3 text-gray-200 rounded-xl hover:bg-gray-700/50 transition-all duration-200 group {{ request()->routeIs('leave.*') ? 'bg-blue-600 hover:bg-blue-700 shadow-lg' : '' }}">
                     <div
                         class="flex items-center justify-center w-8 h-8 rounded-lg {{ request()->routeIs('leave.*') ? 'bg-blue-500/50 text-white' : 'bg-gray-700/50 text-gray-400' }} group-hover:text-white transition-colors duration-200">
