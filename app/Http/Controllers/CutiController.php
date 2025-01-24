@@ -6,6 +6,7 @@ use App\Models\Cuti;
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class CutiController extends Controller
 {

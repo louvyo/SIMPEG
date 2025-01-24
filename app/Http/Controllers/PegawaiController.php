@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Pegawai;
 use App\Models\Bidang;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PegawaiController extends Controller
 {
@@ -73,6 +74,7 @@ class PegawaiController extends Controller
             'pegawaiAktif' => Pegawai::where('status', 'Aktif')->count(),
             'pegawaiCuti' => Pegawai::where('status', 'Cuti')->count(),
             'totalDepartemen' => Bidang::count(),
+            'user' => Auth::user()
         ]);
     }
 

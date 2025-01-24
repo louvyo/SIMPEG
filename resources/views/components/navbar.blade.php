@@ -68,13 +68,9 @@
                         <img class="w-8 h-8 rounded-lg border-2 border-gray-600 hover:border-blue-500 transition-colors duration-200"
                             src="{{ asset('storage/assets/images/profile/default-avatar.jpg') }}" alt="user photo">
                         <div class="hidden md:block text-left">
-                            <p class="text-sm font-medium text-white">Neil Sims</p>
-                            <p class="text-xs text-gray-400">Administrator</p>
+                            {{ $user->name }} <!-- Tampilkan nama pengguna -->
+                            <div class="text-xs text-gray-400">Administrator</div> <!-- Tampilkan jabatan pengguna -->
                         </div>
-                        <svg class="w-4 h-4 text-gray-400 transition-transform duration-200"
-                            :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                        </svg>
                     </button>
 
                     <!-- Enhanced Dropdown Menu -->
@@ -94,8 +90,8 @@
                                         src="{{ asset('storage/assets/images/profile/default-avatar.jpg') }}"
                                         alt="user photo">
                                     <div>
-                                        <h4 class="text-sm font-medium text-white">Neil Sims</h4>
-                                        <p class="text-xs text-gray-400">neil.sims@company.com</p>
+                                        <h4 class="text-sm font-medium text-white">{{ $user->name }}</h4>
+                                        <p class="text-xs text-gray-400">{{ $user->email }}</p>
                                     </div>
                                 </div>
                                 <div class="text-xs text-gray-400 pb-2">
