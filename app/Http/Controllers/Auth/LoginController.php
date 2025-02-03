@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\LoginRequest; // Menggunakan Form Request untuk validasi
+use Illuminate\Http\Request; // Import kelas Request
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
@@ -13,18 +14,8 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request) // Menggunakan LoginRequest untuk validasi
     {
-        // Validasi input
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
-        ], [
-            'email.required' => 'Email harus diisi',
-            'email.email' => 'Format email tidak valid',
-            'password.required' => 'Password harus diisi'
-        ]);
-
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials, $request->filled('remember'))) {
@@ -37,7 +28,7 @@ class LoginController extends Controller
         ])->onlyInput('email');
     }
 
-    public function logout(Request $request)
+    public function logout(Request $request) // Menggunakan Request yang sudah diimpor
     {
         Auth::logout();
         $request->session()->invalidate();
