@@ -17,12 +17,14 @@ class CutiController extends Controller
         $cutiDisetujui = Cuti::disetujui()->count();
         $cutiDitolak = Cuti::ditolak()->count();
         $cutiProses = Cuti::proses()->count();
+        $user = Auth::user(); // Get the authenticated user
 
         return view('pages.cuti.index', compact(
             'totalCuti',
             'cutiDisetujui',
             'cutiDitolak',
-            'cutiProses'
+            'cutiProses',
+            'user' // Pass the user variable
         ));
     }
 
@@ -67,19 +69,10 @@ class CutiController extends Controller
     // Menampilkan detail pengajuan cuti
     public function show($id)
     {
-        // Ambil data cuti dengan relasi pegawai
         $cuti = Cuti::with('pegawai')->findOrFail($id);
+        $user = Auth::user(); // Get the authenticated user
 
-        // Pastikan tanggal dikonversi ke Carbon
-        $cuti->tanggal_mulai = is_string($cuti->tanggal_mulai)
-            ? Carbon::parse($cuti->tanggal_mulai)
-            : $cuti->tanggal_mulai;
-
-        $cuti->tanggal_selesai = is_string($cuti->tanggal_selesai)
-            ? Carbon::parse($cuti->tanggal_selesai)
-            : $cuti->tanggal_selesai;
-
-        return view('pages.cuti.show', compact('cuti'));
+        return view('pages.cuti.show', compact('cuti', 'user')); // Pass the user variable
     }
 
     // Menampilkan form untuk mengedit pengajuan cuti
@@ -87,7 +80,9 @@ class CutiController extends Controller
     {
         $cuti = Cuti::findOrFail($id);
         $pegawais = Pegawai::where('status', 'Aktif')->get();
-        return view('pages.cuti.edit', compact('cuti', 'pegawais'));
+        $user = Auth::user(); // Get the authenticated user
+
+        return view('pages.cuti.edit', compact('cuti', 'pegawais', 'user')); // Pass the user variable
     }
 
     // Memperbarui pengajuan cuti

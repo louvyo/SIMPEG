@@ -68,8 +68,12 @@
                         <img class="w-8 h-8 rounded-lg border-2 border-gray-600 hover:border-blue-500 transition-colors duration-200"
                             src="{{ asset('storage/assets/images/profile/default-avatar.jpg') }}" alt="user photo">
                         <div class="hidden md:block text-left">
-                            {{ $user->name }} <!-- Tampilkan nama pengguna -->
-                            <div class="text-xs text-gray-400">Administrator</div> <!-- Tampilkan jabatan pengguna -->
+                            @if($user)
+                                {{ $user->name }} <!-- Tampilkan nama pengguna -->
+                                <div class="text-xs text-gray-400">Administrator</div> <!-- Tampilkan jabatan pengguna -->
+                            @else
+                                Guest <!-- Or display a default message -->
+                            @endif
                         </div>
                     </button>
 
@@ -129,7 +133,7 @@
                             <!-- Logout Section -->
                             <div class="p-2">
                                 <a href="#"
-                                    class="flex items-center px-4 py-2 text-sm text-red-400 hover:bg-red-500/10 hover:text-red-300 rounded-lg transition-colors duration-200 group">
+                                    class="flex items-center px-4 py-2 text-red-400 hover:bg-red-500/10 hover:text-red-300 rounded-lg transition-colors duration-200 group">
                                     <svg class="w-5 h-5 mr-3 text-red-400 group-hover:text-red-300" fill="none"
                                         stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
