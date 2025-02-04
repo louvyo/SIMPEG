@@ -66,7 +66,8 @@
                         class="flex items-center space-x-3 p-2 rounded-xl hover:bg-gray-700/50 focus:outline-none focus:ring-2 focus:ring-gray-600 transition-all duration-200"
                         aria-expanded="false">
                         <img class="w-8 h-8 rounded-lg border-2 border-gray-600 hover:border-blue-500 transition-colors duration-200"
-                            src="{{ $user->avatar ? asset('storage/' . $user->avatar) : asset('storage/assets/images/profile/default-avatar.jpg') }}" alt="user photo">
+                            src="{{ $user->avatar ? asset('storage/' . $user->avatar) : asset('storage/assets/images/profile/default-avatar.jpg') }}"
+                            alt="user photo">
                         <div class="hidden md:block text-left">
                             @isset($user)
                                 <span>{{ $user->name }}</span>
