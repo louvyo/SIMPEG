@@ -6,8 +6,8 @@
             <div class="flex items-center justify-start rtl:justify-end">
                 <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar"
                     type="button"
-                    class="inline-flex items-center p-2 text-sm text-gray-400 rounded-lg sm:hidden hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600 transition-colors duration-200">
-                    <span class="sr-only">Open sidebar</span>
+                    class="inline-flex items-center p-2 text-sm text-gray-400 rounded-lg sm:hidden hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600 transition-colors duration-200"
+                    aria-label="Open sidebar">
                     <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg">
                         <path clip-rule="evenodd" fill-rule="evenodd"
@@ -50,8 +50,8 @@
             <div class="flex items-center space-x-4">
                 <!-- Notifications -->
                 <button
-                    class="relative p-2 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-gray-600 rounded-lg transition-colors duration-200">
-                    <span class="sr-only">View notifications</span>
+                    class="relative p-2 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-gray-600 rounded-lg transition-colors duration-200"
+                    aria-label="View notifications">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9">
@@ -61,19 +61,19 @@
                 </button>
 
                 <!-- Profile Dropdown -->
-                <div class="relative" x-data="{ open: false }">
+                <div class="relative" x-data="{ open: false }" x-cloak>
                     <button type="button" @click="open = !open" @click.outside="open = false"
                         class="flex items-center space-x-3 p-2 rounded-xl hover:bg-gray-700/50 focus:outline-none focus:ring-2 focus:ring-gray-600 transition-all duration-200"
                         aria-expanded="false">
                         <img class="w-8 h-8 rounded-lg border-2 border-gray-600 hover:border-blue-500 transition-colors duration-200"
                             src="{{ asset('storage/assets/images/profile/default-avatar.jpg') }}" alt="user photo">
                         <div class="hidden md:block text-left">
-                            @if($user)
-                                {{ $user->name }} <!-- Tampilkan nama pengguna -->
-                                <div class="text-xs text-gray-400">Administrator</div> <!-- Tampilkan jabatan pengguna -->
+                            @isset($user)
+                                <span>{{ $user->name }}</span>
+                                <div class="text-xs text-gray-400">Administrator</div>
                             @else
-                                Guest <!-- Or display a default message -->
-                            @endif
+                                <span>Guest</span>
+                            @endisset
                         </div>
                     </button>
 
@@ -132,15 +132,18 @@
 
                             <!-- Logout Section -->
                             <div class="p-2">
-                                <a href="#"
-                                    class="flex items-center px-4 py-2 text-red-400 hover:bg-red-500/10 hover:text-red-300 rounded-lg transition-colors duration-200 group">
-                                    <svg class="w-5 h-5 mr-3 text-red-400 group-hover:text-red-300" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                                    </svg>
-                                    Sign out
-                                </a>
+                                <form action="{{ route('logout') }}" method="POST">
+                                    @csrf
+                                    <button type="submit"
+                                        class="flex items-center w-full px-4 py-2 text-red-400 hover:bg-red-500/10 hover:text-red-300 rounded-lg transition-colors duration-200 group">
+                                        <svg class="w-5 h-5 mr-3 text-red-400 group-hover:text-red-300" fill="none"
+                                            stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                        </svg>
+                                        Sign out
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>

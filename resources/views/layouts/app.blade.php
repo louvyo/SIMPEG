@@ -39,8 +39,8 @@
         </main>
     </div>
 
-    {{-- Footer --}}
-    @include('components.footer')
+    {{-- Footer
+    @include('components.footer') --}}
 
     {{-- Global Scripts --}}
     <script src="https://unpkg.com/flowbite@1.4.1/dist/flowbite.js"></script>
