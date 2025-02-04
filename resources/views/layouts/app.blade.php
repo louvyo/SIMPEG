@@ -23,7 +23,7 @@
 
 <body class="bg-gray-900 text-white min-h-screen flex flex-col">
     {{-- Navbar --}}
-    @include('components.navbar')
+    @include('components.navbar', ['user' => Auth::user()])
 
     <div class="flex flex-1">
         {{-- Sidebar (optional, bisa dikontrol) --}}
