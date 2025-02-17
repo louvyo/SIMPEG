@@ -6,6 +6,8 @@ use App\Models\Pegawai;
 use App\Models\Bidang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class PegawaiController extends Controller
 {
@@ -56,7 +58,7 @@ class PegawaiController extends Controller
         $query->orderBy($sortBy, $sortDirection);
 
         // Ambil data pegawai dengan pagination
-        $pegawais = $query->paginate(10);
+        $pegawais = $query->paginate($request->input('per_page', 10));
 
         // Ambil daftar bidang untuk dropdown filter
         $bidangs = Bidang::all();
@@ -93,7 +95,7 @@ class PegawaiController extends Controller
     public function store(Request $request)
     {
         // Validasi input
-        $validatedData = $request->validate([
+        $validator = Validator::make($request->all(), [
             'nip' => 'required|unique:pegawais,nip',
             'nama' => 'required|string|max:255',
             'email' => 'required|email|unique:pegawais,email',
@@ -105,7 +107,12 @@ class PegawaiController extends Controller
             'avatar' => 'nullable|image|max:2048'
         ]);
 
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
         // Tambahkan status default jika tidak diberikan
+        $validatedData = $validator->validated();
         $validatedData['status'] = $request->input('status', 'Aktif');
 
         // Proses upload avatar jika ada
@@ -116,7 +123,7 @@ class PegawaiController extends Controller
 
         try {
             // Buat pegawai baru
-            $pegawai = Pegawai::create($validatedData);
+            Pegawai::create($validatedData);
 
             // Redirect dengan pesan sukses
             return redirect()->route('pegawai.index')->with('success', 'Pegawai berhasil ditambahkan');
@@ -155,7 +162,7 @@ class PegawaiController extends Controller
         $pegawai = Pegawai::findOrFail($id);
 
         // Validasi input dengan aturan unik yang mempertimbangkan ID saat ini
-        $validatedData = $request->validate([
+        $validator = Validator::make($request->all(), [
             'nip' => 'required|unique:pegawais,nip,' . $pegawai->id,
             'nama' => 'required|string|max:255',
             'email' => 'required|email|unique:pegawais,email,' . $pegawai->id,
@@ -168,11 +175,17 @@ class PegawaiController extends Controller
             'avatar' => 'nullable|image|max:2048'
         ]);
 
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $validatedData = $validator->validated();
+
         // Proses upload avatar jika ada
         if ($request->hasFile('avatar')) {
             // Hapus avatar lama jika ada
-            if ($pegawai->avatar && \Storage::disk('public')->exists($pegawai->avatar)) {
-                \Storage::disk('public')->delete($pegawai->avatar);
+            if ($pegawai->avatar && Storage::disk('public')->exists($pegawai->avatar)) {
+                Storage::disk('public')->delete($pegawai->avatar);
             }
 
             // Simpan avatar baru
@@ -200,9 +213,17 @@ class PegawaiController extends Controller
      */
     public function destroy($id)
     {
-        $pegawai = Pegawai::findOrFail($id);
-        $pegawai->delete();
+        try {
+            $pegawai = Pegawai::findOrFail($id);
+            $pegawai->delete();
 
-        return redirect()->route('pegawai.index')->with('success', 'Pegawai berhasil dihapus');
+            return redirect()->route('pegawai.index')->with('success', 'Pegawai berhasil dihapus');
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Handle database-related errors
+            return back()->withErrors(['msg' => 'Gagal menghapus pegawai: ' . $e->getMessage()]);
+        } catch (\Exception $e) {
+            // Handle general errors
+            return back()->withErrors(['msg' => 'Gagal menghapus pegawai: ' . $e->getMessage()]);
+        }
     }
 }
