@@ -93,7 +93,7 @@
                             <div class="p-4">
                                 <div class="flex items-center space-x-3 mb-3">
                                     <img class="w-10 h-10 rounded-lg border-2 border-blue-500"
-                                        src="{{ $user->avatar ? asset('storage/' . $user->avatar) : asset('storage/assets/images/profile/default-avatar.jpg') }}"
+                                        src="{{ $user->avatar ? Storage::app($user->avatar) : asset('assets/images/profile/default-avatar.jpg') }}"
                                         alt="user photo">
                                     <div>
                                         <h4 class="text-sm font-medium text-white">{{ $user->name }}</h4>
